@@ -1,0 +1,34 @@
+Let \rob and \opp be two robots operating in an obstacle-free grid \w of size $N=m \times n$. Both robots move in the four basic directions (North, South, East, West). Consider \rob to be our robot-of-interest, and \opp to be the opponent. 
+The goal of each robot is to cover the area, that is, find a path (denoted as the coverage path) that visits  each point in the area at least once. We define a coverage strategy of a robot as the coverage path, including the order of cells visited (specifically in a cyclic coverage path, the strategy indicates both the cells' ordering, and the direction of movement---clockwise or counterclockwise), or a behavior (for example: opponent chooses randomly, at each step, one of its four neighbors, and go there). We denote \rob's and \opp's strategies by $S_\rob,S_\opp\in \mathcal{S}$, respectively, where $\cal{S}$ stands for the possible strategies space. In the offline version of the competitive coverage problem, $S_\rob$ and $S_\opp$ are computed in advance (before the execution), and mostly consist of cells permutation, whereas in the online problem, the strategies are behaviors, able to adjust online to the environment.
+
+\opp is covering \w using an optimal coverage strategy, that is, it follows a path guaranteeing coverage in minimal time (we based our experiments on the Spanning-Tree Coverage algorithm \cite{gabriely2001spanning}). \rob's goal is to cover as many cells as possible {\em before they are visited by \rob}. The calculation of the covering strategy of \rob, $S_\rob$, is based on its initial location, $i_r$. The initial position of \opp, $i_\opp$, is not necessarily known to \rob.
+
+The way we define the problem, \rob can be given $i_\opp$, $S_\opp$, both or neither. These types of information are called {\em Information Models}, and defined as follows:
+\begin{definition}[\textbf{Information Model}]
+Information Model $IM \in \lbrace \varnothing, \lbrace S,I\rbrace \rbrace$, represents the knowledge a robot has on its opponent, where $S\in \mathcal{S} \cup \lbrace S_\emptyset \rbrace$, where $S_\emptyset$ stands for an unknown strategy, and $I \in W \cup \lbrace \w_\emptyset \rbrace$, where $\w_{\emptyset}$ refers to an unknown initial point.
+If $IM=\varnothing$ then the player of interest does not know its opponent exists.
+Let $IM_\rob$ be the information model \rob is given about \opp, and let $IM_\opp$ be the information model \opp is given about \rob.
+\end{definition}
+\rob strive first to maximize the number of cells it covers before \opp. Denote this value by 
+\begin{dmath*}[compact]
+\fcc_{x}= 
+\# \lbrace \textnormal{ Cells First Covered by } x \in \lbrace\rob,\opp\rbrace \rbrace 
+\end{dmath*}
+When deciding between options with the same \fcc value, \rob will choose the one that yields the fastest world's coverage time - the time it takes \rob to covers all of \w.
+
+\opp can operate with or without the knowledge of \rob's existence. We refer to these cases as the {\em symmetric and asymmetric competitive coverage}, respectively.
+In the {\em asymmetric} case, $IM_\opp=\varnothing$, and in the {\em symmetric} case, $IM_\opp \neq \varnothing$. In both, $IM_\rob \neq \varnothing $.
+Considering all we said above, present in \Cref{definitions: problem} the competitive coverage problem definition.
+\begin{figure}
+    \centering
+    \begin{mdframed}[backgroundcolor=gray!20] 
+\begin{definition}[\textbf{Competitive Coverage Problem}]
+Let \w be a finite, obstacles-free grid of size $N$. Given $IM_\opp=\lbrace S_\opp ,i_\opp \rbrace$ to \rob and $IM_\rob \in \lbrace \varnothing, \lbrace S_\rob, i_\rob \rbrace \rbrace$ to \opp, find $S_\rob^\star \in \mathcal{S}$ s.t.
+\begin{dmath*}[compact]
+S_\rob^\star =\argmax_{S_\rob\in\mathcal{S}} \lbrace \fcc_{r}(IM_\rob,IM_\opp ) \rbrace
+\end{dmath*}
+\end{definition}
+\end{mdframed}
+    \caption{Competitive Coverage: Definition}
+    \label{definitions: problem}
+\end{figure}

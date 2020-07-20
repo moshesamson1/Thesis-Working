@@ -1,0 +1,17 @@
+The problem of single-robot coverage has been extensively discussed in the literature. Refer to \cite{galceran2013survey} for a recent survey of coverage path planning methods.
+
+The coverage problem can be classified as either offline or online \cite{choset2001coverage}.
+Online algorithms assume zero or partial knowledge regarding the world to be covered, and the coverage-path is generated while advancing in that world. Conversely, Offline algorithms rely on stationary, known beforehand map of the world, and thus create the full coverage-path before even starting to move through it. In this work, we focus on offline coverage.
+
+The coverage problem has been reduced to the traveling salesman problem \cite{arkin2000approximation}, and thus known to be $\mathcal{NP}$-complete even on simple graphs such as grid graphs \cite{papadimitriou1977euclidean}. However, there are known solutions to the coverage problem, that work even in linear time (e.g. \cite{gabriely2001spanning}). In our work we consider an approximate cellular decomposition (as explained in \cite{galceran2013survey}) into finite grid, and thus we know there exists an optimal coverage path which can be found in linear time.
+
+Considerable attention has been given also to the multi-robot variant of the coverage problem, where multiple robots work in coordination in order to jointly cover an area. The robots can be with or without leader(s), relying on full or limited communication (e.g., \cite{agmon2008giving}), in online or offline manner \cite{agmon2008giving, de2005blind}.
+In this work we do consider multiple (exactly 2) robots, but working noncooperately, one on each side.
+
+Yehoshua et al. \cite{yehoshua2013robotic} recently introduced a new variant of the coverage problem, in which the covering robots operate in an adversarial environment, where threats exist and might stop the robot. Online algorithms for adversarial coverage were discussed in  \cite{yehoshua2015online}, and multi-robot algorithms for adversarial coverage were discussed in \cite{yehoshua2016multi}. 
+In this work other robots considered as competitors, and are not being a threat to our robot.
+
+Another worth-mentioning problem related to coverage is the patrolling task, in which the robot(s) are to repeatedly visit the area in order to monitor change in state. Examples to either partition-based or cyclic-based can be found in \cite{guo2004towards, guo2004coverage, jung2002tracking, chevaleyre2004theoretical}.
+Another one is adversarial patrolling (\cite{agmon2011multi, sless2014multi, agmon2008multi}, where there is an adversary trying to penetrate through the patrol path, undetected. In this work we consider competitors, where both are already in the area, and are trying to visit it as fast as possible.
+
+Finally, the competitive problem is related to the foraging problem, which is searching and then transporting objects to one or more collection points. In \cite{winfield2009foraging} we find a fairly extensive survey of the subject. In our work, the robot does not need to find anything, therefore there is no notion of 'capacity' (that exists in foraging), and the choice to go back to certain points depends on the covering strategy assumptions (which, in our case, says that only position visited more than once is the initial position).

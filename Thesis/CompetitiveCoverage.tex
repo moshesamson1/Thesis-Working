@@ -1,0 +1,1237 @@
+\documentclass[a4paper,11pt]{article}
+% Comment this line out if you need a4paper
+
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
+
+% \IEEEoverridecommandlockouts                              % This command is only needed if 
+                                                          % you want to use the \thanks command
+
+% \overrideIEEEmargins                                      % Needed to meet printer requirements.
+
+%In case you encounter the following error:
+%Error 1010 The PDF file may be corrupt (unable to open PDF file) OR
+%Error 1000 An error occurred while parsing a contents stream. Unable to analyze the PDF file.
+%This is a known problem with pdfLaTeX conversion filter. The file cannot be opened with acrobat reader
+%Please use one of the alternatives below to circumvent this error by uncommenting one or the other
+%\pdfobjcompresslevel=0
+%\pdfminorversion=4
+
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+% The following packages can be found on http:\\www.ctan.org
+%\usepackage{graphics} % for pdf, bitmapped graphics files
+% \usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage{times} % assumes new font selection scheme installed
+%\usepackage{amsmath} % assumes amsmath package installed
+%\usepackage{amssymb}  % assumes amsmath package installed
+
+% \pdfminorversion
+
+% % changed area 
+\let\proof\relax
+\let\endproof\relax
+
+\usepackage{tcolorbox}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm, amsfonts}
+\usepackage{breqn}
+\usepackage{seqsplit}
+\usepackage{relsize}
+\usepackage{mathtools}
+\usepackage{epsfig}
+\usepackage{color}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{relsize}
+\usepackage{float}
+\usepackage{dsfont}
+\usepackage{hyperref}
+\usepackage[nameinlink]{cleveref}
+\newcommand{\bigqm}[1][1]{\text{\larger[#1]{\textbf{?}}}}
+\usepackage{tikz,fullpage}
+\usetikzlibrary{arrows, petri, topaths}
+\usepackage{tkz-berge}
+% \usepackage[position=top]{subfig}
+\usepackage{verbatim}
+\usepackage{pgf, pgfplots, pgfplotstable}
+\usepackage{tikz}
+\usepackage{fancyhdr, setspace, color, soul}
+\usepackage{geometry,csquotes, doi}
+% \usepackage{ucs}
+\usepackage{breqn}
+\usepackage{mdframed}
+\usepackage{dsfont}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{xspace}
+% \usepackage{caption}
+\usepackage{multirow}
+\usepackage{xfrac}
+% \usepackage{subfig}
+\usepackage{subcaption}
+\usepackage{cleveref}
+\usetikzlibrary{arrows, automata, backgrounds,snakes}
+
+% define MACROS
+\newcommand{\len}{15}
+\newcommand{\LPart}{0.4}
+\newcommand{\dgreen}{black!60!green}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\newtheorem{theorem}{Theorem}
+% \newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{remark}{Remark}
+
+% \newtheorem{thm}{Theorem}[section]
+% \newtheorem{lem}[thm]{Lemma}
+% \newtheorem{prop}[thm]{Proposition}
+% \newtheorem{cor}{Corollary}
+% \newtheorem{conj}{Conjecture}[section]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+% \newtheorem{exmp}{Example}[section]
+% \newtheorem{rem}{Remark}
+
+
+\newcounter{casenum}
+\newenvironment{caseof}{\setcounter{casenum}{1}}{\vskip.5\baselineskip}
+\newcommand{\case}[2]{\vskip.5\baselineskip\par\noindent {\bfseries Ca se \arabic{casenum}:} #1\\#2\addtocounter{casenum}{1}}
+%\newcommand\rob{\ensuremath{r}\xspace}
+%\newcommand\opp{\ensuremath{o}\xspace}
+\newcommand{\rob}{{{\sf R}}\xspace}
+\newcommand{\opp}{{{\sf O}}\xspace}
+\newcommand{\io}{{\ensuremath{i_{\opp}}}\xspace}
+\newcommand{\w}{{{\texttt W}}\xspace}
+\newcommand{\fcc}{{{\sf{FCC}}}\xspace}
+\newcommand{\sg}{{\sf{SG}_{\rob}}}
+\newcommand{\IM}{{{\sf{IM}}}\xspace}
+\newcommand{\itp}{{{\textsf{ITP}}}\xspace}
+\newcommand{\crs}{{{\sf{CRS}}}\xspace}
+\newcommand{\lcp}{{{\sf{LCP}}}\xspace}
+\newcommand{\ltr}{{{\sf{LTR}}}\xspace}
+% \newcounter{\lcp}{\ensuremath{LCP}\xspace}
+\newcommand{\coos}{{{\sf{COS}}}\xspace}
+\newcommand{\gn}{\ensuremath{GN}\xspace}
+\newcommand{\gf}{\ensuremath{GF}\xspace}
+\newcommand{\go}{\ensuremath{GO}\xspace}
+
+%% Code chunk for statistics starts here...
+\newcommand{\calcrowmean}{
+    \def\rowmean{0}
+    \pgfmathparse{\pgfkeysvalueof{/pgfplots/table/summary statistics/end index}-\pgfkeysvalueof{/pgfplots/table/summary statistics/start index}+1}
+    \edef\numberofcols{\pgfmathresult}
+            % ... loop over all columns, summing up the elements
+    \pgfplotsforeachungrouped \col in {\pgfkeysvalueof{/pgfplots/table/summary statistics/start index},...,\pgfkeysvalueof{/pgfplots/table/summary statistics/end index}}{
+        \pgfmathparse{\rowmean+\thisrowno{\col}/\numberofcols}
+        \edef\rowmean{\pgfmathresult}
+    }
+}
+\newcommand{\calcstddev}{
+    \def\rowstddev{0}
+    \calcrowmean
+    \pgfplotsforeachungrouped \col in {\pgfkeysvalueof{/pgfplots/table/summary statistics/start index},...,\pgfkeysvalueof{/pgfplots/table/summary statistics/end index}}{
+        \pgfmathparse{\rowstddev+(\thisrowno{\col}-\rowmean)^2/(\numberofcols-1)}
+        \edef\rowstddev{\pgfmathresult}
+    }
+    \pgfmathparse{sqrt(\rowstddev)}
+}
+\newcommand{\calcstderror}{
+    \calcrowmean
+    \calcstddev
+    \pgfmathparse{sqrt(\rowstddev)/sqrt(\numberofcols)}
+}
+
+\pgfplotstableset{
+    summary statistics/start index/.initial=1,
+    summary statistics/end index/.initial=4,
+    create col/mean/.style={
+        /pgfplots/table/create col/assign/.code={% In each row ... 
+            \calcrowmean
+            \pgfkeyslet{/pgfplots/table/create col/next content}\rowmean
+        }
+    },
+    create col/standard deviation/.style={
+        /pgfplots/table/create col/assign/.code={% In each row ... 
+            \calcstddev
+            \pgfkeyslet{/pgfplots/table/create col/next content}\pgfmathresult
+        }
+    },
+    create col/standard error/.style={
+        create col/assign/.code={% In each row ... 
+            \calcstderror
+            \pgfkeyslet{/pgfplots/table/create col/next content}\pgfmathresult
+        }
+    }
+}
+
+
+
+\captionsetup[subfigure]{subrefformat=simple,labelformat=simple}
+\renewcommand\thesubfigure{(\alph{subfigure})}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclareMathOperator*{\argmax}{arg\,max} %
+\DeclareMathOperator*{\argmin}{arg\,min} %Jan Hlavacek
+\allowdisplaybreaks
+
+
+% \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+% \def\uncheckmark{$\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.2ex] \draw (0,0) -- (1,1) (0,1) -- (1,0);}$}
+% \newcommand{\crss}{$\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.2ex, red] \draw (0,0) -- (1,1) (0,1) -- (1,0);}$}%
+
+% \renewcommand{\qedsymbol}{$\blacksquare$}
+
+\title{\LARGE \bf
+Competitive  Coverage:  (Full)  Information  as  a  Game  Changer}
+
+
+\author{Moshe N. Samson$^{1}$ and Noa Agmon$^{2}$% <-this % stops a space
+%\thanks{*This work was not supported by any organization}% <-this % stops a space
+\thanks{$^{1}$Moshe N. Samson is with the Computer Science Department,
+        Bar-Ilan University, Ramat Gan 5290002, Israel
+        {\tt\small samson.moshe@gmail.com}}%
+\thanks{$^{2}$Noa Agmon is with the Computer Science Department, Bar-Ilan University, Ramat Gan 5290002, Israel
+        {\tt\small agmon@cs.biu.ac.il}}%
+}
+
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+
+
+\includegraphics[width=0.9\textwidth]{Images/logo.jpg}\\[1cm]
+\textsc{\LARGE Bar Ilan University}\\[1.5cm]
+\textsc{\Large M.Sc Draft}\\[0.5cm]
+%\hrule \\[0.4cm]
+%{\huge \bfseries Speeding Frontier-Based Exploration by
+%Using Semantic Labeling}\\[0.4cm]
+%\hrule \\[1.5cm]
+
+\hrule
+{ \vspace{2 mm} }
+{ \huge \bfseries Competitive Coverage}
+{ \vspace{3 mm} }
+\hrule
+{ \vspace{8 mm} }
+% \author{Moshe N. Samson\\
+% advised by Noa Agmon\\
+% The MAVERICK Group, Computer Science Department\\
+% Bar Ilan University\\
+% Ramat Gan, Israel 52900\\
+% \tt\small samson.moshe@gmail.com
+
+%author and supervisor
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Moshe N. Samson 
+
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Supervisor:} \\
+Noa Agmon
+\end{flushleft}
+\end{minipage}
+
+
+\vfill
+
+
+\large{The SMART Group, Computer Science Department\\
+Bar Ilan University\\
+Ramat Gan, Israel 52900\\
+\tt\small samson.moshe@gmail.com}
+
+\vfill
+
+\today
+
+\end{center}
+\end{titlepage}
+
+%opening
+\title{Competitive Coverage}
+\author{Moshe N. Samson\\
+advised by Noa Agmon\\
+The SMART Group, Computer Science Department\\
+Bar Ilan University\\
+Ramat Gan, Israel 52900\\
+\tt\small samson.moshe@gmail.com
+}
+
+
+
+\tableofcontents
+\maketitle
+
+\begin{abstract}
+\input{SharedParts/abstract.tex}
+\end{abstract}
+
+\section{INTRODUCTION}
+\input{SharedParts/introduction.tex}
+
+\section{Background and Related Work}
+\input{SharedParts/related_work.tex}
+
+\section{Competitive Coverage: Definition}
+\input{SharedParts/problem_definition.tex}
+
+%We consider different information models: either \rob is given, or not, the initial location of \opp, $i_\opp$, and its strategy, $S_\opp$. Then, assuming a basic behavior, where only \rob is aware of \opp's existence ($\IM_{\rob}=\emptyset$), and it must decide its strategy before the game begins, we aim at finding the best strategy $S_\rob$ for \rob, given the information model. 
+%In this paper we consider the asymmetric case in which only \rob is aware of \opp. 
+We examine the competitive coverage problem with %optimal strategy for \rob  %Hence, we aim at determining the optimal strategy $S_\rob$ for \rob, based on 
+the following information models:%, maximizing $\fcc_{rob}$.
+%We divide our research into 4 different information models:
+\begin{enumerate}
+\item \textbf{Full Information} - $\IM_{\rob}=\lbrace S_{\opp},i_{\opp}\rbrace$
+\item \textbf{Partial Information} - $\IM_{\rob}=\lbrace S_{\emptyset},i_{\opp}\rbrace$
+\item \textbf{Partial Information} - $\IM_{\rob}=\lbrace S_{\opp},\w_{\emptyset}\rbrace$
+\item \textbf{Zero Information} - $\IM_{\rob}=\lbrace S_{\emptyset},\w_{\emptyset}\rbrace$
+\end{enumerate}
+%For each of these models, we would like to know what is the best strategy for \rob to play, maximizing $\fcc_\rob$.
+
+\section{Motivation}
+Consider the following real-world scenario:
+Two robots that are looking for oil over international waters, where the first one to discover it gets the rights of mining it. In this case, even though each side wants to cover the whole area as fast as possible, it is way more important to discover {\em first} as much of the area as possible.
+
+In general, any case where there are scattered goods over an area in unknown locations, where the objective is to discover first as many of the goods as possible, is relevant to our case. \Cref{theorems: motivation} connects the $\fcc$ measure to the expected number of collected goods in this scenario.% we provide proof for the optimality of the $\fcc$ measurement in this case.
+
+\begin{theorem}\label{theorems: motivation}
+In a world $\w$ with unknown number of scattered items in unknown locations, and the probability for an item to exist in a cell is uniform throughout $\w$. Given two robots \rob and \opp that are trying to collect the same items, then %in the \emph{asymmetric} case, 
+\rob maximizing its $\fcc$ is equivalent to maximizing the expected number of collected items. %before \opp.
+\end{theorem}
+\begin{proof}[Proof of \Cref{theorems: motivation}]
+%Let us start with some notations; 
+Let $g$ be and number of scattered items in $\w$, where $g_i$ is item number $i$, and let $c(g_i)\in\w$ be the cell containing $g_i$.
+The expected number of items collected by $\rob$ (over the locations of the items), denoted by $\sg$, is defined as:
+\begin{dmath*}[compact] 
+    \mathbb{E}\left[\sg\right]=\mathbb{E}\left[\sum_{i=1}^{g}{\mathds{1}\left[\rob\text{ visits } c\left(g_i\right)\text{ before }\opp \right]}\right]
+    = \sum_{i=1}^{g}{\mathbb{E}\left[\mathds{1}\left[\rob\text{ visits } c\left(g_i\right)\text{ before }\opp\right]\right]} = \sum_{i=1}^{g}{P\left(\rob\text{ visits } c\left(g_i\right)\text{ before }\opp\right)}
+\end{dmath*}
+
+
+Since the probability for an item to exist in a cell is uniform throughout $\w$, that is, \[\mathbb{E}\left[c\left(g_i\right)\right]=\mathbb{E}\left[c\left(g_j\right)\right] \,\,\forall i,j\in\left[1,g\right]\] we get that:
+\begin{dmath*}[compact]
+\max\left\{\mathbb{E}\left[\sg\right]\right\}=\max\left\{\sum_{i=1}^{g}{P\left(\rob\text{ visits } c\left(g_i\right)\text{ before }\opp \right)}\right\}
+=\max\left\{\frac{1}{\abs*{\w}}\sum_{j=1}^{\abs*{\w}}{\mathds{1}\left[\rob \text{ visits } c_j \text{ before } \opp\right]}\right\}=\max\left\{\sum_{j=1}^{\abs*{\w}}{\mathds{1}\left[\rob \text{ visits } c_j \text{ before } \opp\right]}\right\}=\max\left\{\fcc_{\rob}\right\}
+\end{dmath*}
+Which concludes our proof.
+\end{proof}
+
+
+\section{Full Information}
+In this case robot $\rob$ has full information about robot $\opp$'s plans, that is, $\IM_{\rob}=\lbrace S_{\opp},i_{\opp}\rbrace$. We show that if $\rob$ simply travels as quickly as possible to the first location in $\opp$'s path and precede it, $\rob$  maximizes its $\fcc$. This behavior is depicted in Algorithm \itp (\Cref{algorithms: Intercept-then-Precede}). 
+
+\begin{definition}[Interception-Point]
+The {\em Interception-Point between $S_{\opp}$ and $i_{\rob}$} is the first cell $c_j\in S_{\opp}$ that the time it takes \rob to reach $c_j$ is lower than the time it takes $\opp$ to reach it. 
+The method for finding Interception-Point is shown in \Cref{algorithms: interception-point}. 
+Notice we used Dijkstra($i_\rob$,$c_j$)\cite{dijkstra1959note} to compute the distance between cells in the graph, which means \itp should work with obstacles too.
+\end{definition}
+\begin{algorithm}
+    \begin{algorithmic}
+        \REQUIRE $i_\rob$
+        \REQUIRE  $S_{\opp}=\left\{c_1^{\opp},c_2^{\opp},...,c_N^{\opp}\right\}$
+        \FOR{$j\in \left[1,N\right]$}
+            \IF {Dijkstra $(i_\rob,c_j)$ $<j$}
+                \RETURN $j$
+            \ENDIF
+        \ENDFOR
+    \end{algorithmic}
+\caption{Finding Interception-Point}\label{algorithms: interception-point}
+\end{algorithm}
+
+\begin{algorithm}
+\begin{algorithmic}
+    \REQUIRE $i_\rob$
+    \REQUIRE $S_{\opp}=\left\{c_1^{\opp},c_2^{\opp},...,c_N^{\opp}\right\}$
+	\STATE $k \leftarrow \Cref{algorithms: interception-point}(i_\rob)$
+    \STATE GoTo $c^{\opp}_{k}$
+    \FOR{$j\in \left[k+1,N\right]$}
+        \STATE GoTo $c^{\opp}_j$
+    \ENDFOR
+\end{algorithmic}
+\caption{Intercept Then Precede (\itp)\label{algorithms: Intercept-then-Precede}}
+\end{algorithm}
+
+In \Cref{theorems: itp optimality expected fcc} we prove the optimality of \itp in the full information model, and show its expected \fcc. % we prove the expected $\fcc$ \itp yields, thus providing an upper limit to all coverage algorithms in this scenario.
+In order to prove the expected \fcc, we first prove the following supporting lemma.
+\begin{lemma}\label{lemmas:ExpectedDistanceTwoCellsRectangular}
+The expected distance between two cells selected uniformly at random on a rectangular grid of size $m\times n$ is \[ \frac{m^2-1}{3m}+\frac{n^2-1}{3n}\]
+\end{lemma}
+\begin{proof}[Proof of \Cref{lemmas:ExpectedDistanceTwoCellsRectangular}]
+Let $X_1,Y_1,X_2,Y_2$ be random variables, indicating the coordinates for cell $C_1=\lbrace X_1, Y_1 \rbrace$ and  cell $C_2=\lbrace X_2, Y_2 \rbrace$. $X_1,X_2$ can fall anywhere in the range $\left[1\ldots m\right]$, where $Y_1,Y_2$ can fall anywhere in the range $\left[1\ldots n\right]$.
+The expected distance between two cell is:
+\[\mathbb{E}\left[\abs*{C_2-C_1}\right]=\mathbb{E}\left[\abs*{X_2-X_1}\right]+\mathbb{E}\left[\abs*{Y_2-Y_1}\right]\]
+
+The expression $\mathbb{E}\left[\abs*{X_1-X_2}\right]$ is computed in \Cref{equations: 123}. 
+The expression $\mathbb{E}\left[\abs*{Y_1-Y_2}\right]$ is computed similarly in the range $[1,n]$, thus adding the two expression concludes the proof.
+
+\begin{multline}
+\mathbb{E}\left[\abs*{X_1-X_2}\right] = \\
+\sum_{x_1=1}^{m}\sum_{x_2=1}^{m}{\frac{\abs*{x_1-x_2}}{m^2}} = \sum_{x_1=1}^{m}\sum_{x_2=1}^{x_1}{\frac{x_1-x_2}{m^2}}+\sum_{x_1=1}^{m}\sum_{x_2=x_1+1}^{m}{\frac{x_2-x_1}{m^2}}=\\
+\frac{1}{m^2}\left(\sum_{x_1=1}^{m}\sum_{x_2=1}^{x_1}{x_1-x_2}+\sum_{x_1=1}^{m}\sum_{x_2=x_1+1}^{m}{x_2-x_1}\right)=\\
+\frac{1}{m^2}\left(\sum_{x_1=1}^{m}{\left(x_1^2-\sum_{x_2=1}^{m}{x_2}\right)}\right)+
+\frac{1}{m^2}\left(\sum_{x_1=1}^{m}\left(\sum_{x_2=x_1+1}^{m}{x_2}-\left(m-x_1\right)\cdot x_1\right)\right)=\\
+\frac{1}{m^2}\left(\sum_{x_1=1}^{m}{\left(x_1^2-\frac{1}{2}\cdot x_1\left(x_1+1\right)\right)}\right)+
+\frac{1}{m^2}\sum_{x_1=1}^{m}\left(\frac{1}{2}\cdot \left(m-x_1\right)\left(m+x_1+1)-\left(m-x_1\right)\cdot x_1\right)\right)=\\
+\frac{1}{m^2}\sum_{x_1=1}^{m}{\left(x_1^2-\left(1+m\right)x_1+\left(\frac{1}{2}m^2+\frac{1}{2}m\right)\right)}=\\
+\frac{m\left(\frac{1}{2}m^2+\frac{1}{2}m\right)}{m^2}+\frac{1}{m^2}\sum_{x_1=1}^{m}{\left(x_1^2-\left(1+m\right)x_1\right)}=\\
+\frac{m+1}{2}+\frac{1}{m^2}\sum_{x_1=1}^{m}{x_1^2}-\frac{1}{m^2}\left(1+m\right)\left(\frac{1}{2}m\left(m+1\right)\right)=\\
+\frac{m+1}{2}=\frac{1}{m^2}\left(\frac{1}{6}\cdot m\left(m+1\right)\left(2m+1\right)\right)-
+\frac{1}{m^2}\left(1+m\right)\left(\frac{1}{2}m\left(m+1\right)\right)=\\
+\frac{1}{6m}\left(3m^2+3m+2m^2+3m+1-3m^2-6m-3\right)=\\
+=\frac{\left(m+1\right)\left(m-1\right)}{3m}
+\label{equations: 123}
+\end{multline}
+
+\end{proof}
+
+
+\begin{theorem}\label{theorems: itp optimality expected fcc}
+In the full knowledge asymmetric competitive coverage problem on an obstacle-free grid, Algorithm \itp optimizes $\mathbb{E}\left[\fcc_{\rob}\right]$, and in a grid of size $m\times n$ yields
+\[\mathbb{E}[\fcc] = m\cdot n-\frac{m^2-1}{3m}-\frac{n^2-1}{3n}\]
+
+
+\end{theorem}
+
+\begin{proof} [Proof of \Cref{theorems: itp optimality expected fcc}]
+%We start by stating and proving %\Cref{lemmas:ExpectedDistanceTwoCellsRectangular}.
+The \fcc equals the number of cells robot \rob visits before robot \opp. In a world of size $m \times n$ this equals the size of the world ($m\cdot n$) minus the time it takes \rob to reach the interception point of \opp's coverage path. Therefore the {\em expected} \fcc is $mn - \mathbb{E}\left[\abs*{C_2-C_1}\right]$. Following \Cref{lemmas:ExpectedDistanceTwoCellsRectangular}, this equals 
+\[\mathbb{E}\left[\fcc\right]=%m\cdot n-\mathbb{E}\left[\abs*{C_2-C_1}\right]=
+n\cdot m - \frac{m^2-1}{3m} - \frac{n^2-1}{3n}\]
+We are now left to prove \itp's optimality.
+
+Remember that \opp is said to be optimal, which means it does as less steps as it can, and in our case, it does exactly $\abs*{w}$ steps.
+In each step, \opp is visiting a new cell.
+If it is the first to be there, it 'gains' the cell. 
+Therefore, each step that \rob is doing something else other than cover a new cell, \opp is gaining a new cell. But, after interception, since \rob is covering from that point using $S_\opp$, every step \rob is taking is a guaranteed gain for \rob.
+
+So, to minimize the amount of cells that \opp is visiting before \rob we intercept it (gaining steps along the way). From that point, by covering \w using $S_\opp$, \rob maximizes its \fcc. We just described \itp.
+\end{proof}
+
+\section{Zero Information}
+In the zero-information case, \rob knows neither $i_\opp$ nor $S_\opp$. In fact, in this information model, \rob knows about \opp only that it exists.
+
+Let us introduce the \textbf{C}hoose-\textbf{R}andom-\textbf{S}trategy procedure (\crs), that chooses an optimal coverage path $S_\rob\in\mathcal{S}$ at random. In \Cref{theorems: crs optimality expected fcc} we prove the optimality of \crs, and its resulting $\mathbb{E}[\fcc]$. It follows that, in fact, the knowledge that an opponents exists in the world does not grant \rob any advantage.
+
+\begin{theorem} \label{theorems: crs optimality expected fcc}
+In the zero-knowledge asymmetric competitive coverage problem on an obstacle-free grid, Algorithm \crs maximizes $\mathbb{E}\left[\fcc\right]$, and on a grid of size $m\times n$, \crs yields  \[\mathbb{E}[\fcc_\rob\mid S_\rob=\crs]=\frac{m\times n +1}{2}\]
+\end{theorem}
+\begin{proof}[Proof of \Cref{theorems: crs optimality expected fcc}]
+Let us first introduce the notion of covering-time:
+\begin{definition}[Covering-Time $CT_\rob(c_i)$]
+The covering time of the cell $c_i$ by \rob is the time it takes \rob to reach cell $c_i$ for the first time. More formally, given $S_{\rob}=\left\{c_1^{\rob},c_2^{\rob},\ldots,c_N^{\rob}\right\}$, $CT_\rob(c_i)$ is the first index $j$ s.t. $c_j^{\rob}=c_i$.
+\end{definition}
+Notice the following: a cell $c_i$ is 'gained by \rob' if and only if $CT_{\rob}(c_i) < CT_{\opp}(c_i)$, which means that \rob visits $c_i$ before \opp. Let $\mathds{1}[x]$ be the unity function, where $\mathds{1}[x]=1$ if and only if x is true, $\mathds{1}[x]=0$ otherwise. 
+One can re-write the expression for \rob's gain using the $CT$ property:
+\begin{dmath}
+\mathbb{E}[\fcc]=\mathbb{E}\left[\sum_{i=1}^{m\times n}{\mathds{1}\left[CT_\opp\left(c_i\right)\geq {CT}_{\rob}(c_i)\right]}\right]=\sum_{i=1}^{m\times n}{\mathbb{E}\left[\mathds{1}\left[{CT}_{\opp}(c_i)\geq {CT}_{\rob}(c_i)\right]\right]}
+\label{equations: fcc to summation}
+\end{dmath}
+To show that $\Cref{equations: fcc to summation}=\frac{m\times n+1}{2}$, we prove that $\mathbb{E}\left[\mathds{1}\left[{CT}_{\opp}(c_i)\geq {CT}_{\rob}(c_i)\right]\right]=\frac{1}{2}$. 
+Indeed:
+\begin{dmath}[compact]
+\mathbb{E}\left[\mathds{1}\left[{CT}_{\opp}(c_i)\geq {CT}_{\rob}(c_i)\right]\right]={P\left({CT}_{\opp}(c_i)\geq {CT}_{\rob}(c_i)\right)}=\frac{1}{2}
+\label{equations: expected to probability}
+\end{dmath}
+where the first equality can be easily proved, and the second is because when averaging over $i_\opp$ and $S_\opp$,  $P\left({CT}_{\opp}(c_i)\right) = P\left({CT}_{\rob}(c_i)\right)=\frac{1}{m\times n}$, and since they are independent of each other, both can be considered as i.i.d variables, uniformly distributed over $[1,m\times n]$, and the probability that one is greater than the other (or, \Cref{equations: expected to probability}) is exactly $\frac{1}{2}$.
+Using \Cref{equations: fcc to summation} and \Cref{equations: expected to probability} we get:
+\begin{dmath*}[compact]
+\mathbb{E}[\fcc]=\sum_{i=1}^{m\times n}{\underbrace{\mathbb{E}\left[\mathds{1}\left[CT_{\rob}\left(c_i\right)\geq i\right]\right]}_{0.5}}=\frac{m\times n+1}{2}
+\end{dmath*}
+\end{proof}
+
+\section{Only Strategy Known} 
+
+In this case, where \rob knows $S_\opp$, but not $i_\opp$, we examine whether \rob can achieve anything better than playing \crs, given that is is given more information: Unfortunately, as stated in \Cref{theorems: 2d max fcc unknown io}, it cannot, and the best $\mathbb{E}\left[\fcc\right]$ \rob can achieve is random-like.
+This result is surprising: the knowledge about $S_\opp$ is irrelevant to \rob, and it does not help achieving anything better than random-like results. That is, even though \rob has more information than in the zero-knowledge case, still no better results are achievable.
+
+\begin{theorem}\label{theorems: 2d max fcc unknown io}
+When $\IM_\rob=\lbrace S_\opp , i_\emptyset \rbrace$, then 
+\[\max_{S_\rob} \lbrace \mathbb{E}_{i_\opp}[\fcc_\rob]\rbrace=\mathbb{E}_{i_\opp,S_\rob}[\fcc_\rob]=\frac{N+1}{2}\]
+\end{theorem}
+
+\begin{proof}[Proof of \Cref{theorems: 2d max fcc unknown io}]
+Since $S_{\rob}$ and $S_{\opp}$ are optimal-cyclic-coverage strategies, and since we assumed $\w$ is an obstacles-free rectangular grid, both $S_{\rob}$ and $S_\opp$ are actually Hamiltonian cycles, consisted of all the cells in $\w:c_0,...,c_{N-1}$; The relative place a cell $c_i$ is actually  ${CT}_{\rob}(c_i)$. 
+
+Note that each starting position $i_r$ determines the covering time of all the cells $c_0,...,c_{N-1}$; Since we assume the strategy is known beforehand, then, for \opp, the covering time is set after $i_\opp$ is known, and changing it changes for all the cells their respective covering time. That is, $CT\left(c_i\right)$ directly depends on $i_\opp$ for all $c_i\in\w$, and $CT_{\opp}(c_i)\in [0,N-1]$.
+
+Similar to \Cref{equations: fcc to summation}, one can write the $\fcc$ of a fixed problem (with all its variables known) $\fcc(\w,S_{\rob},S_{\opp},i_r,i_\opp)$ as $\# \lbrace CT_{\rob}(c_i) \le CT_{\opp}(c_i)\rbrace$. Let $\mathbb{E}_{x}(\fcc)$ be the expected $\fcc$ where the randomness is taken over the variable $x$. We therefore understand the following equation:
+\[\mathbb{E}_{i_\opp}\left[\fcc\right]=
+\frac{1}{N}\sum_{i_\opp\in \w}{\sum_{c_i\in \w}{\mathds{1}\left[CT_{\rob}(c_i) \le CT_{\opp}(c_i)\right]}}\]
+If we change the order of summation, we can use what we know about ranging over the initial position and get:
+\begin{dmath*}[compact]
+\mathbb{E}_{i_\opp}\left[\fcc\right]=
+\frac{1}{N}{\sum_{\substack{i_\opp\in \w \\c_i\in \w}}{\mathds{1}\left[CT_{\rob}(c_i) \le CT_{\opp}(c_i)\right]}}=
+% \frac{1}{N}\sum_{c_i\in \w}{\sum_{i_\opp\in \w}{\mathds{1}\left[CT_{S_{\rob},i_r}(c_i) \le CT_{S_{\opp},i_\opp}(c_i)\right]}}=
+\frac{1}{N}\sum_{c_i\in \w}{\# \lbrace CT_{\rob}(c_i) \le CT_{\opp}(c_i)\rbrace}=
+\frac{1}{N}\sum_{c_i\in \w}{N-CT_{\rob}(c_i)}=
+% \frac{1}{N}(1+2+\ldots+N)
+\frac{N+1}{2}
+\end{dmath*}
+\end{proof}
+
+\section{Only Initial Position Known}
+In this information model, where $i_{\opp}$ is known but $S_{\opp}$ is not, we present a heuristic strategy for coverage, \ltr (Longest To Reach), and demonstrate empirically its superiority over other strategies in terms of maximizing $\fcc$ for \rob. 
+The optimality proof of \ltr is left to future work.
+
+\subsection{The \ltr Algorithm}
+The idea behind the \ltr strategy (\Cref{algorithms: Longest-To-Reach}) is that for \rob to maximizes its expected \fcc (over different \opp's strategies) it should cover areas with lower probability that \opp already visited, instead of areas with high such probability. Such covering strategy is given by \Cref{equations: TPS}.
+
+% Since $S_\opp$ is unknown, instead of actually computing $P\left[CT_{\opp}\left(c_i\right)<i\right]$, we compute the expected such value (averaging over strategies).
+% If \opp would have been a true random 
+
+%, finding such strategy is not always an easy task. In \ltr we use a heuristic for that, as shown in \Cref{algorithms: Longest-To-Reach}. 
+To reach all the cells, we run BFS from $i_\opp$, giving each cell a LEVEL value of how much recursive calls were created to reach that cell.
+After all the cells are set with LEVEL value, \rob tries to cover groups of cells, from high to low. %each with larger LEVEL value.
+The underlying assumption here, THAT NEED TO BE PROVEN, is that the LEVEL value is correlated with the probability of being covered at specific time. The best strategy would have the lowest accumulated LEVEL value (as is obvious from \Cref{algorithms: Longest-To-Reach}), and the better a strategy is, the higher this value would be. 
+
+
+
+\begin{equation}
+    S^{TPS}=
+    \argmin_{S=\left\{c_1,c_2,...,c_k\right\}} \sum_{i=1}^{k}{P\left[CT_{\opp}\left(c_i\right)<i\right]}
+    \label{equations: TPS}
+\end{equation}
+
+% Also important to note that $TPS(c)$ needs $i_\opp$ to compute the inner probabilities. 
+{\small{
+\begin{algorithm}
+\begin{algorithmic}
+    \REQUIRE $i_\opp$
+    
+   \STATE set STATUS=READY for each cell in \w
+   \STATE set $i_\opp.\text{STATUS}=\text{WAITING}$
+   \STATE set $i_\opp.\text{LEVEL}=1$
+   \STATE Enqueue $i_\opp$
+   \WHILE{Queue not empty}
+        \STATE $c\leftarrow$ Dequeue cell
+        \STATE set $c.\text{STATUS}=\text{PROCESSED}$
+        \FORALL{$c'\in c.\text{NEIGHBORS}$ }
+            \IF {$c'.\text{STATUS}=\text{READY}$}
+                \STATE set $c'.\text{STATUS}=\text{WAITING}$
+                \STATE set $c'.\textsf{LEVEL}=c.\text{LEVEL}+1$
+                \STATE Enqueue $c'$
+            \ENDIF
+        \ENDFOR
+    \ENDWHILE
+   
+    
+    % \STATE go to lowest cell (thats io)
+    \STATE $v=1$
+    \WHILE{$\exists c\in \w$ s.t. $c.\text{LEVEL}=v$}
+        \STATE cover all cells with $\text{LEVEL}=v$
+        \STATE $v=v+1$
+    \ENDWHILE
+    
+    % \STATE $\overline{i_{\opp}} \leftarrow$ farthest corner from $i_\opp$
+    % \STATE GoTo $\overline{i_\opp}$
+    % \STATE Cover \w by strategy $TPS\left(\overline{i_{\opp}}\right)$
+    
+\end{algorithmic}
+\caption{Longest To Reach (\ltr)\label{algorithms: Longest-To-Reach}}
+\end{algorithm}
+}}
+
+In the last step in \ref{algorithms: Longest-To-Reach}, we cover all the cells with specific LEVEL value. We assume (and it needs to be proven), that all these cells are connected to each other, and that there is an edge between cell with LEVEL value of $v$ to cell with level value of $v+1$ (except for the last one). By proving these claims, we prove that last step in the algorithm is possible, and the only question remains is how to create the minimal path that cover all the cells with LEVEL value of $v$ and finishing at cell with edge to a cell with LEVEL value of $v+1$.
+
+\subsubsection{\ltr Complexity}
+First, we need to show that in the general case (with no restrictions over the world), implementing \ltr is NP-hard (show reduction to the traveling salesman problem).
+Then, we need to show that under some conditions, which our case meet, there is a closed solution that can be found in limited amount of time.
+
+\begin{theorem}
+Finding close solution for implementing \ltr over \w of any size, is $\mathcal{NP}$-hard.
+\label{theorems: ltr hardness}
+\end{theorem}
+\begin{proof}[Proof of \cref{theorems: ltr hardness}]
+Consider the last step in the algorithm, where we need to cover all the cells which have a specific LEVEL value.
+Covering all of those cells only once is equivalent to finding a Hamiltonian path through a graph as follows:
+Consider graph $G_k=(V,E)$, where $V=\lbrace c_i : c_i.LEVEL=k \rbrace$. $E=\lbrace e_{ij} : c_i \text{ and } c_j \text{ are adjacent in } \w \rbrace$. Finding a path through all the cells with a specific LEVEL value, that covers them only once, means finding a Hamiltonian path throughout $G_k$. Since finding Hamiltonian path is known to be $\mathcal{NP}$-hard, we also say that implementing \ltr in a general case is $\mathcal{NP}$-hard.
+\end{proof}
+
+There are two conditions, under which there is a simple way to find solution to finding \ltr:
+\begin{enumerate}
+    \item \w is a squared, finite grid.
+    \item $i_{\opp}$ is in one of the corners.
+\end{enumerate}
+
+If the conditions above hold, then \ltr can be implemented easily, as shown in \Cref{algorithms: ltr solution under assumptions}.
+W.l.o.g assume that $\io$ is the bottom-left corner (cell $(0,0)$), as illustrated in \Cref{figures: ltr graph}. 
+
+\begin{algorithm}
+    \begin{algorithmic}
+    \FOR{$k=2$ \TO $k=\abs*{\w}$ } 
+        \IF{k is even} 
+            % \ENSURE currently at $(0,k-2)$
+            \STATE {go 1 step right to $(0,k-1)$, $k-1$ steps up to $(k-1,k-1)$, and $k-1$ steps left to $(k-1,0)$} 
+            % \ENSURE currently at $(k-1,0)$
+        \ELSE 
+            % \ENSURE currently at $(k-2,0)$
+            \STATE{ go 1 step up to $(k-1,0)$, $k-1$ steps right to $(k-1,k-1)$, and $k-1$ steps down to $(0,k-1)$} 
+            % \ENSURE currently at $(0,k-1)$
+        \ENDIF
+    \ENDFOR
+    
+    \end{algorithmic}
+    \caption{Implementing \ltr under relaxing assumptions}\label{algorithms: ltr solution under assumptions}
+\end{algorithm}
+
+\begin{theorem}
+If the conditions above holds, then there is a closed, easy-to-find solution to the last step of \ltr, shown in \Cref{algorithms: ltr solution under assumptions}.
+\label{theorems: ltr solution under assumptions}
+\end{theorem}
+
+\begin{proof}[Proof of \Cref{theorems: ltr solution under assumptions}]
+
+We need to prove that \Cref{algorithms: ltr solution under assumptions} is feasible, and that it is indeed covers all of \w optimally (in the minimal amount of steps). 
+Let us use induction. Let $n$ be the size (width/height) of \w.
+If $n=2$ ($n=1$ is an empty case), then as shown in \Cref{figures: ltr graph}, we indeed cover all of \w: we start at (0,0), then going right to (0,1), then up $n$ steps to (1,1), then left $n$ steps to (1,0) - which covers \w in total of 4 steps, which is optimal.
+
+Now, consider $n=N$ for $N>2$. By the induction assumption, we covered all the sub-graph of size $N-1$ with minimal required steps (which is $(N-1)^2$ steps). By the way this method works, if $N$ is even, then $N-1$ was odd, which means that we finished at $(0,N-2)$, at the bottom row, one cell from the right edge (marked..), and from there we are going as the method describes: 1 step right, $N-1$ steps up, and $N-1$ steps left.
+
+Notice we covered all the remaining cells (completeness), and done so in $2N-1$ steps (which combining with the previous time of $(N-1)^2$, brings us to total of $N^2$ - the optimal time for covering $N\times N$ world - proving optimality), and finished as the method depicts: at $(N-1,0)$ (can apply \Cref{algorithms: ltr solution under assumptions} if required to).
+The proof for the odd $N-1$ case is exactly the same.
+\end{proof}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \draw[step=1cm,gray,very thin] (0,0) grid (8,8);
+        \filldraw[fill=blue!40!white, draw=black] (0,0) rectangle (1,1) (0.5,0.5) node{$\io$};
+        \draw[thick,->] (0.5,0.5) -- (1.5,0.5) -- (1.5,1.5) -- (0.5,1.5) node[anchor=south east] {$1$-$LEVEL$};
+        \draw[thick,->, red] (0.5,1.5) -- (0.5,2.5) -- (2.5,2.5) -- (2.5,0.5) node[anchor=south west] {$2$-$LEVEL$};
+         \draw[thick, loosely dotted] (2.5,0.5) -- (3.5,0.5) -- (3.5, 3.5);
+         \draw[thick,->, blue] (6.5,0.5) -- (7.5,0.5) -- (7.5,7.5) -- (0.5,7.5) node[anchor=south west] {$N$-$LEVEL$};
+         \draw[thick, loosely dotted] (6.5,0.5) -- (6.5,3.5);
+    \end{tikzpicture}
+    \caption{\ltr path, demonstrated over $8\times 8$ \w}
+    \label{figures: ltr graph}
+\end{figure}
+
+\subsubsection{\ltr - Generalized}
+Let us try and generalize the last step in \ltr. We'll do so by relaxing our assumption, to be as follow:
+\begin{enumerate}
+    % \item Each $k$-LEVEL sub-graph is connected to all other $k$-LEVEL sub-graphs.
+    % \item There is transition between $k$-LEVEL sub-graph and $k+1$-LEVEL sub-graph, for $k=1...\left(\abs*{\w}-1\right)$.
+    \item \w is rectangular, finite grid, of size $m\times n$.
+\end{enumerate}
+This assumption implies the following:
+\begin{enumerate}
+    \item Each $k$-LEVEL sub-graph is connected to all other $k$-LEVEL sub-graphs.
+    \item There is transition between $k$-LEVEL sub-graph and $k+1$-LEVEL sub-graph, for $k=1...\left(\abs*{\w}-1\right)$.
+\end{enumerate}
+
+\io can be in any cell of \w. Let us now analyze the loss of optimality this means;
+
+We first need to analyze the k-LEVEL sub-graphs when we have a non-squared grid for \w. Let's say that \io is at $\left( i,j \right)$. w.l.o.g, we assume that \io is at the bottom-left quarter of \w (that is, $i\in\left[1,\frac{m}{2}\right]$ and $j\in\left[1,\frac{j}{2}\right]$ ) - any other case, we just rotate our point of view re-compute against the new bottom-left corner.
+
+After applying the BFS stage of \ltr, assigning LEVEL values and creating k-LEVEL sub-graphs (\Cref{definitions: k-level subgraph}), there are 6 types of k-LEVEL groups, that can be characterized by the number of 'edges' they have (as demonstrated in \Cref{figures:6 types of k-LEVEL sub-graphs}).
+
+\begin{figure}
+    \centering
+    
+    \begin{subfigure}[b]{.4\linewidth}
+        \begin{tikzpicture}
+        \draw[step=1cm,gray,very thin] (0,0) grid (5,5);
+        \filldraw[fill=blue!40!white, draw=black] (0,0) rectangle (1,1) (0.5,0.5) node{$\io$};
+        \draw[thick,->] (1.5,0.5) -- (1.5,1.5) -- (0.5,1.5);
+        \draw[thick,->] (0.5,2.5) -- (2.5,2.5) -- (2.5,0.5);
+    \end{tikzpicture}
+    \caption{2-edge, 1-LEVEL and 2-LEVEL}\label{figures: 2 edges covering}
+    \end{subfigure}
+    \begin{subfigure}[b]{.4\linewidth}
+        \begin{tikzpicture}
+        \draw[step=1cm,gray,very thin] (0,0) grid (5,5);
+        \filldraw[fill=blue!40!white, draw=black] (2,2) rectangle (3,3) (2.5,2.5) node{$\io$};
+        \draw[thick,->] (3.5,2.5) -- (3.5,3.5) -- (1.5,3.5) -- (1.5,1.5) -- (3.5,1.5);
+        \draw[thick,->] (4.5,1.5) -- (4.5,4.5) -- (0.5,4.5) -- (0.5,0.5) -- (4.5,0.5);
+    \end{tikzpicture}
+    \caption{4-edge, 1-LEVEL and 2-LEVEL}\label{figures: 4 edges covering}
+    \end{subfigure}
+    
+    \begin{subfigure}[b]{.4\linewidth}
+        \begin{tikzpicture}
+        \draw[step=1cm,gray,very thin] (0,0) grid (5,5);
+        \filldraw[fill=blue!40!white, draw=black] (2,1) rectangle (3,2) (2.5,1.5) node{$\io$};
+        \draw[thin,dashed,->] (3.5,1.5) -- (3.5,2.5) -- (1.5,2.5) -- (1.5,0.5) -- (3.5,0.5);
+        \draw[thick,->] (4.5,0.5) -- (4.5,3.5) -- (0.5,3.5) -- (0.5,0.5);
+    \end{tikzpicture}
+    \caption{3-edges, 2-LEVEL}\label{fig:3-edges, type A}
+    \end{subfigure}
+    \begin{subfigure}[b]{.4\linewidth}
+        \begin{tikzpicture}
+        \draw[step=1cm,gray,very thin] (0,0) grid (6,5);
+        \filldraw[fill=blue!40!white, draw=black] (2,2) rectangle (3,3) (2.5,2.5) node{$\io$};
+        \draw[thin,dashed,->] (3.5,2.5) -- (3.5,3.5) -- (1.5,3.5) -- (1.5,1.5) -- (3.5,1.5);
+        \draw[thin,dashed, ->] (4.5,1.5) -- (4.5,4.5) -- (0.5,4.5) -- (0.5,0.5) -- (4.5,0.5);
+        \draw[thick,->] (5.5,0.5) -- (5.5,4.5);
+    \end{tikzpicture}
+    \caption{1-edge, 3-LEVEL}\label{fig:mouse}
+    \end{subfigure}
+    
+    
+    \begin{subfigure}[b]{.4\linewidth}
+        \begin{tikzpicture}
+            \draw[step=1cm,gray,very thin] (0,0) grid (5,5);
+            \filldraw[fill=blue!40!white, draw=black] (1,2) rectangle (2,3) (1.5,2.5) node{$\io$};
+            \draw[thin,dashed,->] (2.5,2.5) -- (2.5,3.5) -- (0.5,3.5) -- (0.5,1.5) -- (2.5,1.5);
+            \draw[thick,->] (0.5,0.5) -- (3.5,0.5) -- (3.5,4.5) -- (0.5,4.5);
+        \end{tikzpicture}
+    \caption{3-edges, 2-LEVEL}\label{fig:3-edges, type B}
+    \end{subfigure}
+    \begin{subfigure}[b]{.4\linewidth}
+        \begin{tikzpicture}
+        \draw[step=1cm,gray,very thin] (0,0) grid (5,6);
+        \filldraw[fill=blue!40!white, draw=black] (2,2) rectangle (3,3) (2.5,2.5) node{$\io$};
+        \draw[thin,dashed,->] (3.5,2.5) -- (3.5,3.5) -- (1.5,3.5) -- (1.5,1.5) -- (3.5,1.5);
+        \draw[thin,dashed, ->] (4.5,1.5) -- (4.5,4.5) -- (0.5,4.5) -- (0.5,0.5) -- (4.5,0.5);
+        \draw[thick,->] (0.5,5.5) -- (4.5,5.5);
+    \end{tikzpicture}
+    \caption{1-edge, 3-LEVEL}\label{fig:mouse}
+    \end{subfigure}
+    
+    
+    \caption{Caption}
+    \label{figures:6 types of k-LEVEL sub-graphs}
+\end{figure}
+
+\begin{definition}[k-LEVEL sub-graph]
+A group of cells is called \emph{k-LEVEL sub-graph} if it is a connected sub-graph of \w, and all its vertices has a LEVEL of $k$. \label{definitions: k-level subgraph}
+\end{definition}
+
+% \begin{figure}
+%     \centering
+%     \includegraphics{}
+%     \caption{The 6 types of sub-graphs possible}
+%     \label{fig:my_label}
+% \end{figure}
+
+\begin{lemma}
+Each k-level sub-graph has a thickness of 1. 
+\end{lemma}
+\begin{lemma}
+The (k-1)-LEVEL sub-graph has more or the same number of edges than the k-level sub-graph.
+\end{lemma}
+\begin{lemma}
+There is an optimal path for covering all sub-graphs with at least 2 edges.
+\label{lemmas: optimality of subgraphs bigger than 1}
+\end{lemma}
+\begin{proof}[Proof of \Cref{lemmas: optimality of subgraphs bigger than 1}]
+Write proof, based on creating path from finish to start, 
+\end{proof}
+\Cref{lemmas: optimality of subgraphs bigger than 1} is really important in order to analyze the worst case scenario - we would like to know, what is the average loss to optimality that this generalized method gives us. 
+
+The optimal solution for covering all the k-LEVEL sub-graphs with less than 2 edges consists on the following understandings:
+\begin{itemize}
+    \item When covering 4-edges sub-graphs, you finish at the side you started at. That is, if staring covering by taking step right, the next sub-graph covering will also start by taking a step right (illustrated in \Cref{figures: 4 edges covering}).
+    \item When covering any other type, you do not finish where you started: If covering 2-edges sub-graphs, if starting coverage by moving up, then we will finis by moving left; and if we start by moving up, we will finish by moving down (Illustrated in \Cref{figures: 2 edges covering})
+\end{itemize}
+Therefore, we need to analyze how many 4-edges sub-graphs, and how many 2 and 3 edges sub-graphs are there between \io and the first 1 edge sub-graph, to create an optimal covering path. This is pretty simple:
+If $\io=\left(i,j\right)$ and $\w:m\times n$, there are $\max\left\{\min\left\{i,j\right\}-1,0\right\}$ 4-edges sub-graphs. Denote this number by $c_4$. 
+The 1-edge k-LEVEL sub-graphs start at $k=\min\left\{m-i,n-j\right\}+1$. Denote this by $i_1$. All the sub-graphs between the 4-edge sub-graphs and the 1-edge sub-graphs are 3 and 2 -edges sub-graphs, and there are $i_1-c_4$ of those. Denote it by $c_{32}$.
+
+Notice that there are at most 2 sub-graphs of 1-edge type. Our generalized method will first cover the smaller one, then the bigger one, to reduce the amount of times we cover a cell twice (more on that later).
+
+The orientation of \w matters from this point: if it is horizontal (that is, $m>n$), then 1-edge sub-graphs will be to the right and left. On the other hand, if vertical, the 1-edge sub-graphs will be at the top and bottom. w.l.o.g we will consider and describe for the horizontal, but bare in minds the only change from the horizontal to vertical will be the actual directions of covering, and not the order (for example, UP in horizontal will be LEFT in vertical).
+
+So, we would like to cover optimally all the 4,3 and 2-edges sub-group, and the smaller 1-edge sub-group (the one on the left).
+We start at \io, and depending on whether $c_{32}$ is even or odd, we start covering clockwise/counterclockwise the 4-edge sub-graph.
+The algorithm is in \Cref{algorithms: generalized ltr}.
+\begin{algorithm}
+    \begin{algorithmic}
+    \REQUIRE $c_4$
+    \REQUIRE dir
+    \IF{dir=D}
+        \STATE Go D
+        \FOR{$k=0$ \TO $k=c_4-1$}
+            \STATE Go $\left(1+2\cdot k\right) R \to \left(2+2\cdot k\right) U \to \left(2+2\cdot k\right) L \to \left(3+2\cdot k\right) D$
+        \ENDFOR
+    \ELSIF{dir=U}
+        \STATE Go U
+        \FOR{$k=0$ \TO $k=c_4-1$}
+            \STATE Go $\left(1+2\cdot k\right) R \to \left(2+2\cdot k\right) D \to \left(2+2\cdot k\right) L \to \left(3+2\cdot k\right) U$
+        \ENDFOR
+    \ELSIF{dir=R}
+        \STATE Go R
+        \FOR{$k=0$ \TO $k=c_4-1$}
+            \STATE Go $\left(1+2\cdot k\right) U \to \left(2+2\cdot k\right) L \to \left(2+2\cdot k\right) D \to \left(3+2\cdot k\right) R$
+        \ENDFOR
+    \ELSIF{dir=L}
+        \STATE Go L
+        \FOR{$k=0$ \TO $k=c_4-1$}
+            \STATE Go $\left(1+2\cdot k\right) U \to \left(2+2\cdot k\right) R \to \left(2+2\cdot k\right) D \to \left(3+2\cdot k\right) L$
+            
+        \ENDFOR
+    \ENDIF
+    \RETURN dir
+    \end{algorithmic}
+    \caption{Covering 4-walls groups}
+    \label{algorithms: 4-walls coverage}
+\end{algorithm}
+
+\begin{algorithm}
+    \begin{algorithmic}
+    \STATE $c_4 := \max\left\{\min\left\{i,j\right\}-1,0\right\}$
+    \COMMENT{\# 4-walls sub-graphs}.
+    \STATE $c_3 := \max \left\{i,j\right\}-1-c_4$, or 0 if $i=j$
+    \COMMENT{\# 3-walls sub-graphs}.
+    \STATE $c_3^{type} := $ A if $i>j$, B if $i<j$, not relevant if $i=j$ (because $c_3=0$)
+    \COMMENT {\# 3-walls sub-graphs}
+    % \STATE $c_2 := $
+    % \COMMENT{\# 2-walls sub-graphs}
+    \STATE $c_1^S :=$
+    \COMMENT{\# 1-wall sub-graphs, the small group (left/down to \io)}
+    \STATE $c_1^B :=$
+    \COMMENT{\# 1-wall sub-graphs, the big group (right/up to \io)}
+    \STATE let $d_1$ be the last step's direction
+    
+    \IF{$c_3^{type}=A$ \AND (($c_1^S=0$  \AND $c_3$ is odd) \OR ($c_1^S>0$ \AND $c_3$ is even))}
+        \STATE $d_1:=$ \Cref{algorithms: 4-walls coverage}(L)
+                \COMMENT {L => CW}
+    \ELSIF{$c_3^{type}=A$ \AND (($c_1^S=0$  \AND $c_3$ is even) \OR ($c_1^S>0$ \AND $c_3$ is odd))}
+        \STATE $d_1:=$ \Cref{algorithms: 4-walls coverage}(R)
+                \COMMENT{R => CCW}
+    \ELSIF{$c_3^{type}=B$ \AND (($c_1^S=0$  \AND $c_3$ is odd) \OR ($c_1^S>0$ \AND $c_3$ is even))}
+        \STATE $d_1:=$  \Cref{algorithms: 4-walls coverage}(D)
+                \COMMENT {D => CCW}
+    \ELSIF{$c_3^{type}=B$ \AND (($c_1^S=0$  \AND $c_3$ is even) \OR ($c_1^S>0$ \AND $c_3$ is odd))}
+        \STATE $d_1:=$  \Cref{algorithms: 4-walls coverage}(U)
+                \COMMENT {U => CW}
+    \ENDIF
+    
+    % \IF{$c_1^S=0$}
+    %     \IF{$c_3^{type}=A$}
+    %         \IF{$c_3$ is odd}
+    %             \STATE $d_1:=$ \Cref{algorithms: 4-walls coverage}(L)
+    %             \COMMENT {L => CW}
+    %         \ELSE
+    %             \STATE $d_1:=$ \Cref{algorithms: 4-walls coverage}(R)
+    %             \COMMENT{R => CCW}
+    %         \ENDIF
+    %     \ELSE
+    %         \IF{$c_3$ is odd}
+    %             \STATE $d_1:=$  \Cref{algorithms: 4-walls coverage}(D)
+    %             \COMMENT {D => CCW}
+    %         \ELSE
+    %             \STATE $d_1:=$  \Cref{algorithms: 4-walls coverage}(U)
+    %             \COMMENT {U => CW}
+    %         \ENDIF
+    %     \ENDIF
+    % \ELSE
+    %     \IF{$c_3^{type}=A$}
+    %         \IF{$c_3$ is odd}
+    %             \STATE $d_1:=$  \Cref{algorithms: 4-walls coverage}(R)
+    %             \COMMENT{R => CCW}
+    %         \ELSE
+    %             \STATE $d_1:=$  \Cref{algorithms: 4-walls coverage}(L)
+    %             \COMMENT {L => CW}
+    %         \ENDIF
+    %     \ELSE
+    %         \IF{$c_3$ is odd}
+    %           \STATE $d_1:=$  \Cref{algorithms: 4-walls coverage}(U)
+    %             \COMMENT {U => CW}
+    %         \ELSE
+    %             \STATE $d_1:=$  \Cref{algorithms: 4-walls coverage}(D)
+    %             \COMMENT {D => CCW}
+    %         \ENDIF
+    %     \ENDIF
+    % \ENDIF
+    
+    
+    % \IF{$c_3$ is even \AND $c_3^{type}$ is A}
+    %         \STATE 
+    %         \COMMENT {cover all 4-walls sub-graphs, clockwise, finishing at the bottom-left corner of the outer 4-walls sub-graph}
+        
+    %     \STATE Do \Cref{algorithms: 4-walls coverage}(L)
+    %     % \STATE Go L
+    %     % \FOR{$k=0$ \TO $k=c_4-1$}
+    %     %     \STATE Go $\left(1+2\cdot k\right) U \to \left(2+2\cdot k\right) R \to \left(2+2\cdot k\right) D \to \left(3+2\cdot k\right) L$
+            
+    %     % \ENDFOR
+    %     \STATE $d_1 := L$
+    % \ELSE
+    %     \STATE
+    %     \COMMENT {cover all 4-walls sub-graphs, clockwise, finishing at the bottom-right corner of the outer 4-walls sub-graph}
+    %     \STATE Go R
+    %     \FOR{$k=0$ \TO $k=c_4-1$}
+    %         \STATE Go $\left(1+2\cdot k\right) U \to \left(2+2\cdot k\right) L \to \left(2+2\cdot k\right) D \to \left(3+2\cdot k\right) R$
+    %     \ENDFOR
+    %     \STATE $d_1 := R$
+    % \ENDIF
+    
+    % cover all the  3-walls sub-graphs, ending in the bottom-left cell of the outmost 3-walls sub-graph
+    
+    \STATE Let $Rev(DIR)$ be reverse direction to $DIR$ (e.g. $Rev(L)=R$)
+    \STATE Let $d_2 := R$ if $m<n$ else $U$
+    
+    \FOR{$k=0$ \TO $k=c_3-1$}
+        \STATE Go ${(1) d_1} \to {(2\cdot c_4+k+1) d_2} \to {(2\cdot c_4+k+2) Rev(d_1)} \to {(2\cdot c_4+k+1) Rev(d_2)}$ 
+        \STATE $d_1 := Rev(d_1)$
+    \ENDFOR
+    
+    % cover all 2-edges sub-graphs ->> how to do the move from one c2 layer to another?
+    \STATE $d_1^c=copy(d_1)$
+    \FOR{$k=0$ \TO $k=c_2-1$}
+        \IF {$d_1^c$=R}
+            \STATE Go ${(1) R} \to (1+2\cdot c_4 + c_3+k) U \to 2+2\cdot c_4 + c_3+k)L$
+            \STATE $d_1^c=U$
+        \ELSE
+            \STATE Go ${(1) U} \to (1+2\cdot c_4 + c_3+k) L \to 2+2\cdot c_4 + c_3+k)D$
+            \STATE $d_1^c=R$
+        \ENDIF
+    \ENDFOR
+    
+    \IF{$c_1^S>0$}
+        \FOR{$k=0$ \TO $k=c_1^S-1$}
+            \STATE Go $(1)d_1 \to (n) d_2$
+            \STATE $d_2 := Rev(d_2)$
+        \ENDFOR
+        
+        \STATE $d_2 := Rev(d_2)$
+        \IF{m>n}
+            \STATE Go $(n-j+i-1) d_1$ %
+        \ELSIF{m<n}
+            \STATE Go $(m-i+j-1) d_1$ % 
+        \ENDIF
+    \ENDIF
+    \IF{$c_1^B>0$}
+        \FOR{$k=0$ \TO $k=c_1^B-1$}
+            \STATE Go $(1) d_1 \to (n) d_2$
+            \STATE $d_2 := Rev(d_2)$
+        \ENDFOR
+    \ENDIF
+    
+    
+    
+    
+    \end{algorithmic}
+    \caption{General \ltr}
+    \label{algorithms: generalized ltr}
+\end{algorithm}
+
+\Cref{algorithms: generalized ltr} handle completely the horizontal case, where $m>n$, but we still need to analyze the vertical case ($m>n$).
+First, 
+
+
+
+
+% The generalized method is as follows:
+% \begin{algorithm}
+%     \begin{algorithmic}
+%     \STATE Cover all sub-graphs, with more than 1 edge,  optimally, as in XXX.
+%     \STATE Cover all the 1-edge dub-graph adjacent to until reaching the end of \w.
+%     \STATE Go to the closest uncovered cell (should be in another 1-edge sub-graph), and repeat previous step.
+    
+%     \end{algorithmic}
+%     \caption{Implementing \ltr in generalized case}\label{algorithms: ltr solution generalized}
+% \end{algorithm}
+
+
+For now, we are going to assume \Cref{lemmas: optimality of subgraphs bigger than 1} is correct (proof will come). According to \Cref{lemmas: optimality of subgraphs bigger than 1}, there is an optimal path covering all 4,3,2-edges sub-graphs, and the sub-graph on the left. From that point, we need to go to the bigger 1-edge sub-graph, on the right side of \io, and cover it.
+The \emph{loss in optimality} (denoted by the loss function $l\left(\io\mid \w\right)$) due to the generalization of our assumptions is the amount of cells from the left border of \w to the closest point of the right-side 1-edge sub-graph.
+
+We would like to know what is the average loss of optimality:
+we know that $\io=\left(i,j\right)$. Recall that we assumed $i\in\left[1,\frac{m}{2}\right]$ and $j\in\left[1,\frac{j}{2}\right]$.
+Assume for a second that \w is horizontal ($m>n$). Notice that we have to have 2 1-edge sub-graphs in order to pay for optimality, otherwise we would simple cover it optimally, as \Cref{lemmas: optimality of subgraphs bigger than 1} suggests. For 2 1-edge sub-graphs to exists, $i$ must be greater than $n$. In that case, the loss is the amount of cells from the left border to the closest cell in the right-side 1-edge sub-graph, which is $n-j+i$.
+The loss in any other case is simply 0.
+Let us compute the expected value of the loss function
+\begin{multline}
+    \mathbb{E}_{horz}\left[l\left(\io\mid \w\right)\right]=\sum_{\io}{l\left(\io\mid \w\right)\cdot P\left[\io\right]}
+    \\=\sum_{i=1}^{\frac{m}{2}}\sum_{j=1}^{\frac{n}{2}}{l\left(\left(i,j\right)\mid \w\right)\cdot P\left[\io\right]}
+    \\=\sum_{i=1}^{n}\sum_{j=1}^{\frac{n}{2}}{\underbrace{l\left(\left(i,j\right)\mid \w\right)}_{=0}\cdot P\left[i,j\right]}+\sum_{i=n+1}^{\frac{m}{2}}\sum_{j=1}^{\frac{n}{2}}{l\left(\left(i,j\right)\mid \w\right)\cdot P\left[i,j\right]}
+    \\=\sum_{i=n+1}^{\frac{m}{2}}\sum_{j=1}^{\frac{n}{2}}{\left(n-j+i\right)\cdot \frac{2}{n}\cdot \frac{1}{\frac{m}{2}-n}}
+    \\=\frac{m^2 + 3 m n - 10 n^2}{8 \left(m/2 - n - 1\right)}
+\end{multline}
+
+All this computation is for the horizontal case, and we would like to extend it to the vertical case.
+The computation for the vertical is as follows:
+\begin{multline}
+    \mathbb{E}_{vert}\left[l\left(\io\mid \w\right)\right]=\sum_{\io}{l\left(\io\mid \w\right)\cdot P\left[\io\right]}
+    \\=\sum_{j=1}^{\frac{n}{2}}\sum_{i=1}^{\frac{m}{2}}{l\left(\left(j,i\right)\mid \w\right)\cdot P\left[\io\right]}
+    \\=\sum_{j=1}^{m}\sum_{i=1}^{\frac{m}{2}}{\underbrace{l\left(\left(j,i\right)\mid \w\right)}_{=0}\cdot P\left[j,i\right]}+\sum_{j=m+1}^{\frac{n}{2}}\sum_{i=1}^{\frac{m}{2}}{l\left(\left(j,i\right)\mid \w\right)\cdot P\left[j,i\right]}
+    \\=\sum_{j=m+1}^{\frac{n}{2}}\sum_{i=1}^{\frac{m}{2}}{\left(m-i+j\right)\cdot \frac{2}{m}\cdot \frac{1}{\frac{n}{2}-m}}
+    \\=\frac{n^2 + 3 n m - 10 m^2}{8 \left(n/2 - m - 1\right)}
+\end{multline}
+
+
+% \subsubsection{}
+
+
+% \paragraph{Assumptions} We chose \io to be at the bottom left corner, but it has almost nothing to the way \Cref{algorithms: ltr solution under assumptions} works. In any other case, just replace the directions and the method goes the same.
+
+
+\subsubsection{\ltr Intuition}
+The second thing we need to do is to prove WHY \ltr works. We start by exploring the random-walk, or a variation of it, in which we should have a close form solution to the probability of being in a specific place at specific time, to the expected \fcc gained from that cell. 
+
+\begin{figure}[thpb]
+    \centering
+    \begin{tikzpicture}
+\begin{axis}[
+        title={\ltr Demonstration},
+        ymin=0, ymax=33,
+        xmin=0, xmax=33,
+        width=0.6*\textwidth]
+    \addplot[blue,
+        quiver={u=\thisrow{u},v=\thisrow{v}},
+        -stealth] 
+	table 
+	{
+	x y u v
+	32 32 0 -1
+	32 31 -1 0
+	31 31 0 -1
+	31 30 1 0
+	32 30 0 -1
+	32 29 -2 0
+	30 29 0 2
+	30 31 -1 0
+	29 31 0 -3
+	29 28 3 0
+	32 28 0 -1
+	32 27 -4 0
+	28 27 0 4
+	28 31 -1 0
+	27 31 0 -5
+	27 26 5 0
+	};
+	
+	\addplot[blue, dashed,
+        quiver={u=\thisrow{u},v=\thisrow{v}},
+        -stealth] 
+	table 
+	{
+	x y u v
+	25 25 -20 -20
+	};
+	
+	\addplot[blue,
+        quiver={u=\thisrow{u},v=\thisrow{v}},
+        -stealth] 
+	table 
+	{
+	x y u v
+	3 3 0 28
+	3 31 -1 0
+	2 31 0 -29
+	2 2 30 0
+	32 2 0 -1
+	32 1 -31 0
+	1 1 0 31 
+	};
+	
+	\addplot[red,
+        quiver={u=\thisrow{u},v=\thisrow{v}},
+        -stealth] 
+	table 
+	{
+	x y u v
+	1 32 31 0
+	};
+	
+\end{axis}
+\end{tikzpicture}
+    \caption{\ltr when $i_\rob=(0,31), i_\opp=(0,0)$}
+    \label{figures :best known path}
+\end{figure}
+
+
+\subsection{Simulations and Results}
+To test \ltr, we performed several things. First, we ran simplified simulations of \ltr and other strategies, using python code. The world is a grid of size $32\times 32$, and it takes 1 step to travel between adjacent cells (north/south/east/west)%reach from one cell to another.
+They are called 'simplified' because no physical constraints were took in consideration (turning time, collisions). Each strategy was averaged over 100 different $S_\opp$ random MST (Minimum Spanning Tree), and we checked 4 different cases for $i_\opp$ ($i_\rob$ is always as $(0,0)$). We compared our strategy with 5 different coverage strategies, all of them are optimal (take exactly $\abs*{\w}$ steps to cover the world). %We already know MST and \ltr.
+LCP is the opposite of \ltr: it means covering the world starting from $i_\opp$ and maximize the TPS value.  MST is a simple random MST coverage path.
+The results are shown in \Cref{figures:strategies averages}. As one can see, in three out of four time, \ltr yields the best results against the other strategies (statistically significant, using Student t-test with p-value $<0.0005$).
+Even in the one case where \ltr is only second to optimal, one should look at the huge error margin for the winning strategy and the much lower error margin for \ltr (error bars are standard deviation over the samples).
+
+\begin{figure}[t!]
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+      width  = 0.6*\textwidth,
+      grid style=dashed,
+    %   small,   
+      major x tick style = transparent,
+      ybar=2*\pgflinewidth,
+      bar width=5pt,
+      ymajorgrids = true,
+      symbolic x coords={ A, B, C, D},
+      xticklabels={(0:0)-(0:31),(0:0)-(31:31),(0:0)-(15:15),(0:0)-(0:1)},
+      x tick label style={rotate=15,anchor=north, font=\small},
+      xtick = data,
+      scaled y ticks = false,
+      enlarge x limits=0.15,
+      ymin=275,
+      ymax=685,
+      legend cell align=left,
+      legend columns=3,
+      legend style={at={(0.5,-0.2),/tikz/column 3/.style={
+                column sep=5pt,
+            }},anchor=north},
+  ]
+      \addplot[style={fill=white},error bars/.cd, y dir=both, y explicit]
+          coordinates {
+          (A, 354) +-= (0,53)
+          (B,512) +-= (0,37)
+          (C,525) +-= (0,115)
+          (D, 488) +-= (0,109)
+          };
+
+      \addplot[style={fill=black},error bars/.cd, y dir=both, y explicit,error bar style=red]
+           coordinates {
+          (A, 445) +-= (0,39)
+          (B,463) +-= (0,39)
+          (C,477) +-= (0,16)
+          (D, 468) +-= (0,36)
+          };
+    
+    \addplot[style={fill=red},error bars/.cd, y dir=both, y explicit,error bar style=black]
+           coordinates {
+          (A, 598) +-= (0,32)
+          (B,638) +-= (0,31)
+          (C,530) +-= (0,15)
+          (D, 593) +-= (0,30)
+          };
+           
+    \addplot[style={fill=blue},error bars/.cd, y dir=both, y explicit,error bar style=black]
+           coordinates {
+           (A, 465) +-= (0,31)
+          (B,544) +-= (0,29)
+          (C,554) +-= (0,79)
+          (D, 500) +-= (0,50)
+          };
+    
+    \addplot[style={fill=green},error bars/.cd, y dir=both, y explicit,error bar style=black]
+           coordinates {
+           (A, 373) +-= (0,46)
+          (B,487) +-= (0,32)
+          (C,454) +-= (0,71)
+          (D, 535) +-= (0,38)
+          };
+    
+    \addplot[style={fill=yellow},error bars/.cd, y dir=both, y explicit,error bar style=black]
+           coordinates {
+           (A, 378) +-= (0,44)
+          (B,474) +-= (0,27)
+          (C,460) +-= (0,86)
+          (D, 524) +-= (0,45)
+          };
+      \legend{MST, LCP, \ltr, CircVert, NonCircVert, CircHorz}
+  \end{axis}
+  \end{tikzpicture}
+    \caption{Strategies Averages}
+    \label{figures:strategies averages}
+\end{figure}
+
+We have examined \ltr also in realistic simulations over ROS-GAZEBO. We used standard turtlebots with radius of $0.35$ meters, and the world is of size $11.2\times 11.2$ meters, and can be thought of as $32\times 32$ grid with cells the size of 1 turtlebot. 
+%These simulations did take physical constraints into consideration, therefore should have a higher value, we think.
+The results are shown in \Cref{figures: ros strategies averages}. As one can see, the results support the ones we got from the simplified simulations.
+%All of the results, both in the simplified and physical simulations, are statistically significant, with p-value much lower than $0.05$.
+
+\begin{figure}[t!]
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+      width=0.6*\textwidth,
+      grid style=dashed,
+    %   small,   
+      major x tick style = transparent,
+      ybar=2*\pgflinewidth,
+      bar width=10pt,
+      ymajorgrids = true,
+      symbolic x coords={ A, B, D},
+      xticklabels={(0:0)-(0:31),(0:0)-(31:31),(0:0)-(0:1)},
+      x tick label style={rotate=15,anchor=north, font=\small},
+      xtick = data,
+      scaled y ticks = false,
+      enlarge x limits=0.15,
+      ymin=275,
+      ymax=685,
+      legend cell align=left,
+      legend columns=3,
+      legend style={at={(0.5,-0.2),/tikz/column 3/.style={
+                column sep=5pt,
+            }},anchor=north},
+  ]
+      \addplot[style={fill=white},error bars/.cd, y dir=both, y explicit]
+          coordinates {
+          (A, 381) +-= (0,58)
+          (B,532) +-= (0,62)
+          (D, 570) +-= (0,64)
+          };
+
+      \addplot[style={fill=black},error bars/.cd, y dir=both, y explicit,error bar style=red]
+           coordinates {
+          (A, 502) +-= (0,67)
+          (B, 471) +-= (0,64)
+          (D, 462) +-= (0,63)
+          };
+    
+    \addplot[style={fill=red},error bars/.cd, y dir=both, y explicit,error bar style=black]
+           coordinates {
+          (A, 623) +-= (0,53)
+          (B, 634) +-= (0,45)
+          (D, 597) +-= (0,64)
+          };
+           
+      \legend{MST, LCP, \ltr}
+  \end{axis}
+  \end{tikzpicture}
+    \caption{ROS based simulations - Strategies Averages}
+    \label{figures: ros strategies averages}
+\end{figure}
+
+\addtolength{\textheight}{-1.0cm}   % This command serves to balance the column lengths
+                                  % on the last page of the document manually. It shortens
+                                  % the textheight of the last page by a suitable amount.
+                                  % This command does not take effect until the next page
+                                  % so it should come on the page before the last. Make
+                                  % sure that you do not shorten the textheight too much.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\section*{APPENDIX}
+
+% \section*{ACKNOWLEDGMENT}
+
+% The preferred spelling of the word �acknowledgment� in America is without an �e� after the �g�. Avoid the stilted expression, �One of us (R. B. G.) thanks . . .�  Instead, try �R. B. G. thanks�. Put sponsor acknowledgments in the unnumbered footnote on the first page.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions and Future Work}
+In this paper we presented the competitive coverage problem, in which two robots exist in an environment and compete to be the first to cover cells. We have examined in depth the asymmetric case, in which only one robot is aware it is in a competition with the other, and suggested solutions based on different information models the robot holds on its opponent. We have shown that only having full knowledge on the opponent strategy has a significant impact on the possibility of winning. There are still many directions to pursue in the future, among those examining the symmetric case, proving optimality of the \ltr strategy, and examining an online version of the problem.
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{SharedParts/refs}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+

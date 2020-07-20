@@ -1,0 +1,36 @@
+% \begin{lemma}\label{lemmas:GIPC optimality lower i_t higher FCC}
+% Let $S_{\opp}$ be \opp's complete algorithm. Let $S_{\rob}^1,S_{\rob}^2$ be sane algorithms for \rob, with $i_t^{S_{\opp} S_{\rob}^1}$ and $i_t^{S_{\opp} S_{\rob}^2}$ interception times, respectively. Then, if $i_t^{S_{\opp} S_{\rob}^1} < i_t^{S_{\opp} S_{\rob}^2}\Rightarrow \fcc_\rob(S_{\rob}^1, S_{\opp}) > \fcc_\rob^(S_{\rob}^2, S_{\opp})$
+% \end{lemma}
+
+% \begin{proof}
+% Let us divide the number of cells \rob and \opp are covering first to \textbf{before} and \textbf{after} the interception point. Denote by $b_r^{S_{\opp} S_{\rob}^1}$ the 'before' cells, and by $a_r^{S_{\opp} S_{\rob}^1}$ the 'after' cells. In a similar way, define $b_\opp^{S_{\opp} S_{\rob}^1}$ and $a_\opp^{S_{\opp} S_{\rob}^1}$. Notice that $\fcc_\rob(S_{\rob}^1, S_{\opp})=b_r^{S_{\opp} S_{\rob}^1}+a_r^{S_{\opp} S_{\rob}^1}$, and the same goes for \opp. 
+% Since both $S_{\rob}^1$ and $S_{\rob}^2$ are sane algorithm and work against the same algorithm $S_{\opp}$, we know that $a_0^{S_{\opp} S_{\rob}^1}=a_0^{S_{\opp} S_{\rob}^2}-\textsf{\# never-covered cells from $i_p^{S_{\opp} S_{\rob}^1}$ to $i_p^{S_{\opp} S_{\rob}^2}$}$. This means that if $i_t^{S_{\opp} S_{\rob}^1}<i_t^{S_{\opp} S_{\rob}^2}\Rightarrow a_0^{S_{\opp} S_{\rob}^1}<a_0^{S_{\opp} S_{\rob}^2}$
+% In a similar way, we can see that $b_\opp^{S_{\opp} S_{\rob}^1}=b_\opp^{S_{\opp} S_{\rob}^1}-\textsf{\# never-covered cells from $i_p^{S_{\opp} S_{\rob}^1}$ to $i_p^{S_{\opp} S_{\rob}^2}$}$, and therefore if $i_t^{S_{\opp} S_{\rob}^1}<i_t^{S_{\opp} S_{\rob}^2}\Rightarrow b_\opp^{S_{\opp} S_{\rob}^1}<b_\opp^{S_{\opp} S_{\rob}^2}$.
+% From the above, we conclude and say that $i_t^{S_{\opp} S_{\rob}^1}<i_t^{S_{\opp} S_{\rob}^2}\Rightarrow \fcc_\opp(S_{\rob}^1, S_{\opp})<\fcc_\opp(S_{\rob}^2, S_{\opp})$. And, since we know that $\fcc_\rob(A_?, S_{\opp})=N-\fcc_\opp(A_?, S_{\opp})$, it obviously mean than that $i_t^{S_{\opp} S_{\rob}^1}<i_t^{S_{\opp} S_{\rob}^2}\Rightarrow \fcc_\rob(S_{\rob}^1, S_{\opp})>\fcc_\rob(S_{\rob}^2, S_{\opp})$.
+% \end{proof}
+
+
+% \begin{lemma}\label{lemmas: bound on interception time}
+% Suppose that \w is obstacles-free square grid of size $N\geq 16$, and both $S_{\rob}$ and $S_{\opp}$ are optimal coverage strategies, then if $S_{\rob}$ want to minimize the interception time, $i_t^{S_{\opp} S_{\rob}}$, then $i_t^{S_{\opp} S_{\rob}}\leq \frac{N}{2}$.
+% \end{lemma}
+% \begin{proof}
+% For a rectangular world of size $\sqrt{N} \times \sqrt{N}$, the longest path \rob can go until reaching $i_p^{S_{\opp} S_{\rob}}$ is $\sqrt[]{N}+\sqrt[]{N}$ (the length of the rectangle's diagonal). For our assumption to hold, $N$ should follow: \[2\sqrt[]{N}\leq \frac{N}{2}\Rightarrow N\geq 16 \]
+% %Assuming there are more than 16 cells in \w is a reasonable assumption, completing our proof.
+% \end{proof}
+
+% \begin{lemma} \label{lemmas: GIPC optimality prefer S with i_p}
+% Let $S_{\opp}$ be \opp's coverage algorithm, and let $S_{\rob}^1$ be \rob's algorithm s.t. $\nexists i_p^{S_{\opp} S_{\rob}^1}$, then if $\exists S_{\rob}^2$ s.t. $S_{\rob}^2$ is sane and $\exists i_p^{S_{\opp} S_{\rob}^2}\Rightarrow \exists S_{\rob}^{\star}$ s.t. $S_{\rob}^{\star}$ is sane and $\fcc(S_{\rob}^1, S_{\opp}) < \fcc(S_{\rob}^{\star}, S_{\opp})$.
+% \end{lemma}
+
+% \begin{proof}
+% %In order to prove the above, let us first prove the following claim: 
+% Following Lemma \ref{lemmas: bound on interception time}, since $i_t^{S_{\opp} S_{\rob}}$, then in worst case scenario we get $\fcc_\opp(S_{\rob}, S_{\opp})=
+% \frac{N}{2}$. However, this means that $\fcc_\rob(S_{\rob}, S_{\opp})=\frac{N}{2}$, and for every algorithm with interception time \textbf{lower} than $i_t^{S_{\opp} S_{\rob}}$, we get \textbf{lower} $\fcc_\opp$ and \textbf{higher} $\fcc_\rob$, thus completing the proof.
+% \end{proof}
+
+% \begin{theorem}\label{theorems:FullInformationStrategy}
+% Let $S_{\opp}$ be some complete coverage algorithm for \opp. Let $S_{\rob}$ be a sane coverage algorithm for \rob, then if $S_{\rob}$ minimizes $i_t^{S_{\opp} S_{\rob}}$ the it is optimal for \rob. i.e. $S_{\rob}$ maximizes $\fcc_\rob(S_{\rob}, S_{\opp})$.
+% \end{theorem}
+% \begin{proof}
+% This follows directly from Lemmas \ref{lemmas:GIPC optimality lower i_t higher FCC}  and \ref{lemmas: GIPC optimality prefer S with i_p}: Since \rob goes directly toward the interception point, and from there, plays $S_{\opp}$ as $S_{\rob}$(\ref{lemmas: GIPC optimality prefer S with i_p}), and then we would like to find the earliest interception point possible, since it would yield the the highest $\fcc_\rob(S_{\rob}^\star, S_{\opp})$ possible (\ref{lemmas:GIPC optimality lower i_t higher FCC}).
+% \end{proof}
